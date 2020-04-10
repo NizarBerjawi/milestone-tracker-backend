@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Uuid\HasUuid;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable;
+    use HasUuid, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -35,6 +36,27 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $casts = [];
+    
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    /**
+     * Indicates the name of the field that will be a uuid.
+     *
+     * @var string
+     */
+    protected $uuidField = 'id';
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
