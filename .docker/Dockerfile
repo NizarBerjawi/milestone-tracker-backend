@@ -45,19 +45,19 @@ RUN apt-get -y autoclean && \
     rm /var/log/lastlog /var/log/faillog
 
 # Copy all the codebase
-COPY . /var/www/html
+COPY . /var/www
 
 # Give the webserver ownership of the storage and cache folders
 RUN chown -R www:www \
-  /var/www/html/storage \
-  /var/www/html/bootstrap/cache
+  /var/www/storage \
+  /var/www/bootstrap/cache
 
 # Give the webserver the rights to read and write to storage and cache
-RUN chgrp -R www /var/www/html/storage /var/www/html/bootstrap/cache && \
-  chmod -R ug+rwx /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chgrp -R www /var/www/storage /var/www/bootstrap/cache && \
+  chmod -R ug+rwx /var/www/storage /var/www/bootstrap/cache
 
 # Set working directory
-WORKDIR /var/www/html
+WORKDIR /var/www
 
 USER www
 
