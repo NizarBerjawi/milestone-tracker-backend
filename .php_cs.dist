@@ -1,7 +1,7 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude(['vendor', '.docker'])
+    ->exclude(['.docker', 'bootstrap', 'public', 'storage', 'vendor'])
     ->notPath('_ide_helper.php')
     ->in(__DIR__)
 ;
