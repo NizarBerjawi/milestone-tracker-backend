@@ -10,12 +10,12 @@ trait HasUuid
 {
     /**
      * The "booting" method of the model
-     * 
+     *
      * @return void
      */
     protected static function bootHasUuid()
     {
-        static::creating(function($model) {
+        static::creating(function ($model) {
             $field = $model->getUuidField();
             $table = $model->getTable();
 

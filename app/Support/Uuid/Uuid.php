@@ -23,8 +23,7 @@ class Uuid
     {
         $attempts = 0;
 
-        while($attempts <= static::ATTEMPTS)
-        {
+        while ($attempts <= static::ATTEMPTS) {
             $uuid = Str::uuid();
 
             // Check if the Uuid already exists
