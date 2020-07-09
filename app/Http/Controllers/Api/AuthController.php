@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\LoginRequest;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -19,16 +22,31 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
+    /** 
+     * 
+     */
     public function register(RegisterRequest $request)
-    {
-        $user = User::create([
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password'))
-        ]);
+    {    
+        try  {
+            DB::transaction(function () use ($request) {
+                $user = User::create([
+                    'first_name' => $request->input('first_name'),
+                    'last_name' => $request->input('last_name'),
+                    'email' => $request->input('email'),
+                    'password' => bcrypt($request->input('password'))
+                ]);
 
-        return new UserResource($user);
+                $user->sendEmailVerificationNotification();
+            });
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Something went wrong. Please try again later.'
+            ], 400);
+        }
+
+        return response()->json([
+            'message' => 'An email verification link was sent to your email.',
+        ], 200);
     }
 
     /**
@@ -36,12 +54,16 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(LoginRequest $request)
     {
-        $credentials = request(['email', 'password']);
+        $credentials = $request->only(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorised'], 401);
+            return response()->json(['message' => 'This email or password does not exist.'], 401);
+        }
+
+        if (!auth()->user()->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Your email address is not verified.'], 403);
         }
 
         return $this->respondWithToken($token);

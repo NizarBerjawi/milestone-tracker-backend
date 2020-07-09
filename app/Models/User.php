@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use HasUuid, Notifiable;
 
@@ -35,8 +35,10 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $casts = [];
-    
+    protected $casts = [
+        'email_verified_at' => 'datetime'
+    ];
+
     /**
      * Indicates if the IDs are auto-incrementing.
      *
