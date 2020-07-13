@@ -35,7 +35,7 @@ class AuthController extends Controller
                     'email' => $request->input('email'),
                     'password' => bcrypt($request->input('password'))
                 ]);
-
+                
                 $user->sendEmailVerificationNotification();
             });
         } catch (\Exception $e) {
@@ -43,7 +43,7 @@ class AuthController extends Controller
                 'message' => 'Something went wrong. Please try again later.'
             ], 400);
         }
-
+        
         return response()->json([
             'message' => 'An email verification link was sent to your email.',
         ], 200);
