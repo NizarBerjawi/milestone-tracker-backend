@@ -30,5 +30,5 @@ Route::group([
     Route::post('me', 'AuthController@me');
 
     Route::get('email/verify/{id}', 'VerificationController@verify')->name('verification.verify');
-    Route::get('email/resend', 'VerificationController@send');
+    Route::post('email/resend', 'VerificationController@resend')->name('verification.resend');
 });
