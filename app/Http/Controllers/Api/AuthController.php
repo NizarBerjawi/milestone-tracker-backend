@@ -22,20 +22,18 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-    /** 
-     * 
+    /**
+     *
      */
     public function register(RegisterRequest $request)
-    {    
+    {
         try  {
             DB::transaction(function () use ($request) {
                 $user = User::create([
-                    'first_name' => $request->input('first_name'),
-                    'last_name' => $request->input('last_name'),
                     'email' => $request->input('email'),
                     'password' => bcrypt($request->input('password'))
                 ]);
-                
+
                 $user->sendEmailVerificationNotification();
             });
         } catch (\Exception $e) {
@@ -43,9 +41,9 @@ class AuthController extends Controller
                 'message' => 'Something went wrong. Please try again later.'
             ], 400);
         }
-        
+
         return response()->json([
-            'message' => 'An email verification link was sent to your email.',
+            'message' => 'A verification link was sent to your email.',
         ], 200);
     }
 
