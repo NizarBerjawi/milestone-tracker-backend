@@ -34,6 +34,10 @@ class VerificationController extends Controller
      */
     public function verify(Request $request, $id)
     {
+        if (! $request->hasValidSignature()) {
+            return response()->json(['message' => 'This email confirmation link has expired.'], 410);
+        }
+
         $user = User::findOrFail($id);
 
         if ($user->hasVerifiedEmail()) {
