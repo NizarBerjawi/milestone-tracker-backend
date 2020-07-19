@@ -10,6 +10,11 @@ use App\Http\Requests\Auth\LoginRequest;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @group  Authentication
+ *
+ * Endpoints for authenticating users
+ */
 class AuthController extends Controller
 {
     /**
@@ -23,7 +28,18 @@ class AuthController extends Controller
     }
 
     /**
-     *
+     * Register an account
+     * 
+     * Allows a user to register an account.
+
+     * After registration, a confirmation email will be sent to the provided email.
+     * 
+     * @bodyParam email string required The email of the user Example: test@test.com
+     * @bodyParam password string required The password of the user.
+     * @bodyParam password_confirmation string required The confirmation of the password
+     * 
+     * @param RegisterRequest  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function register(RegisterRequest $request)
     {
@@ -48,8 +64,14 @@ class AuthController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
+     * Get a JWT
      *
+     * Get a JSON Web Token after submitting email and password
+     * 
+     * @bodyParam email string required The email of the user Example: test@test.com
+     * @bodyParam password string The password of the user.
+     * 
+     * @param LoginRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(LoginRequest $request)
@@ -68,8 +90,12 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the authenticated User.
+     * Get the authenticated User
      *
+     * Returns data related to the authenticated user
+     * 
+     * @authenticated
+     * 
      * @return \Illuminate\Http\JsonResponse
      */
     public function me()
@@ -78,8 +104,11 @@ class AuthController extends Controller
     }
 
     /**
-     * Log the user out (Invalidate the token).
+     * Log the user out
      *
+     * Invalidate the JWT token
+     * 
+     * @authenticated
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout()
@@ -90,8 +119,12 @@ class AuthController extends Controller
     }
 
     /**
-     * Refresh a token.
+     * Refresh a token
      *
+     * Provides a new JWT and invalidates the old one
+     * 
+     * @authenticated
+     * 
      * @return \Illuminate\Http\JsonResponse
      */
     public function refresh()
@@ -100,10 +133,9 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the token array structure.
+     * Get the token array structure
      *
      * @param  string $token
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     protected function respondWithToken($token)

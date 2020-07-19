@@ -1,0 +1,246 @@
+{
+    "variables": [],
+    "info": {
+        "name": "Project Planner API",
+        "_postman_id": "347f0cc8-75e7-4833-8932-24faeab8e22e",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.0.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "description": "\nEndpoints for authenticating users",
+            "item": [
+                {
+                    "name": "Register an account",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "localhost:8080",
+                            "path": "api\/auth\/register",
+                            "query": []
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"test@test.com\",\n    \"password\": \"accusamus\",\n    \"password_confirmation\": \"aut\"\n}"
+                        },
+                        "description": "Allows a user to register an account.\n\nAfter registration, a confirmation email will be sent to the provided email.",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Get a JWT",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "localhost:8080",
+                            "path": "api\/auth\/login",
+                            "query": []
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"test@test.com\",\n    \"password\": \"unde\"\n}"
+                        },
+                        "description": "Get a JSON Web Token after submitting email and password",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Log the user out",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "localhost:8080",
+                            "path": "api\/auth\/logout",
+                            "query": []
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]"
+                        },
+                        "description": "Invalidate the JWT token",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Refresh a token",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "localhost:8080",
+                            "path": "api\/auth\/refresh",
+                            "query": []
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]"
+                        },
+                        "description": "Provides a new JWT and invalidates the old one",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Get the authenticated User",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "localhost:8080",
+                            "path": "api\/auth\/me",
+                            "query": []
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]"
+                        },
+                        "description": "Returns data related to the authenticated user",
+                        "response": []
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Verification",
+            "description": "\nEndpoints for verifying users",
+            "item": [
+                {
+                    "name": "Verify email",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "localhost:8080",
+                            "path": "api\/auth\/email\/verify\/:id",
+                            "query": [
+                                {
+                                    "key": "expires",
+                                    "value": "est",
+                                    "description": "The time when the url expire",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "hash",
+                                    "value": "tenetur",
+                                    "description": "The sha1 hash of a string",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "signature",
+                                    "value": "nemo",
+                                    "description": "A string containing a calculated message digest as lowercase hexits",
+                                    "disabled": false
+                                }
+                            ],
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "voluptas",
+                                    "description": "The id of the user being verified"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]"
+                        },
+                        "description": "Verify a newly registered user's email.\n\nThe user will receive an email with the required verification\nURL.",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Resend an email verification email",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "localhost:8080",
+                            "path": "api\/auth\/email\/resend",
+                            "query": []
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]"
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                }
+            ]
+        }
+    ]
+}

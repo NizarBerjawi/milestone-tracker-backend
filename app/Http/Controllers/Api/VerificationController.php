@@ -8,16 +8,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use App\Http\Requests\Auth\ResendVerificationRequest;
 
-class VerificationController extends Controller {
+/**
+ * @group  Verification
+ *
+ * Endpoints for verifying users
+ */
+class VerificationController extends Controller
+{
     /**
+     * Verify email
      *
-     */
-    public function __construct() {
-        $this->middleware('signed')->only('verify');
-    }
-
-    /**
+     * Verify a newly registered user's email.
      *
+     * The user will receive an email with the required verification
+     * URL.
+     *
+     * @urlParam id required The id of the user being verified
+     * @queryParam expires required The time when the url expire
+     * @queryParam hash required The sha1 hash of a string
+     * @queryParam signature required A string containing a calculated message digest as lowercase hexits
+     *
+     * @param RegisterRequest  $request
+     * @param string  $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function verify(Request $request, $id)
     {
@@ -37,7 +50,13 @@ class VerificationController extends Controller {
     }
 
     /**
+     * Resend a verification email
      *
+     * A user can request a new verification email to be sent
+     * in case the previous email expired.
+     *
+     * @param ResendVerificationRequest  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function resend(ResendVerificationRequest $request)
     {
