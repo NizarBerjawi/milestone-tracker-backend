@@ -59,6 +59,9 @@ class ProfileController extends Controller
         $profile->user()->associate($request->user());
         $profile->save();
         
-        return new ProfileResource($profile);
+        return ProfileResource::make($profile)
+            ->additional([
+                'message' => 'Profile created successfully'
+            ]);
     }
 }
