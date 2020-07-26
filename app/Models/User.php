@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Support\Uuid\HasUuid;
 use App\Notifications\VerifyEmail;
+use App\Models\Profile;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -88,5 +89,33 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     public function sendEmailVerificationNotification() {
         $this->notify(new VerifyEmail());
+    }
+
+    /**
+     * Get the profile associated with this user
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    /**
+     * Check if the user has a profile
+     * 
+     * @return boolean
+     */
+    public function hasProfile()
+    {
+        return $this->profile()->exists();
+    }
+
+    /**
+     * Check if a user owns a specific profile
+     */
+    public function owns(Profile $profile)
+    {
+        return $this->profile->is($profile);
     }
 }

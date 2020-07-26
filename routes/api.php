@@ -18,11 +18,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'auth',
-    'namespace' => 'Api'
-], function ($router) {
+Route::group(['prefix' => 'auth'], function ($router) {
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
@@ -31,4 +27,11 @@ Route::group([
 
     Route::get('email/verify/{id}', 'VerificationController@verify')->name('verification.verify');
     Route::post('email/resend', 'VerificationController@resend')->name('verification.resend');
+});
+
+Route::group(['prefix' => 'profiles'], function($router) {
+    Route::get('/', 'ProfileController@index');
+    Route::post('/', 'ProfileController@store');
+    Route::get('/{profile}', 'ProfileController@show');
+    Route::put('{profile}', 'ProfileController@update');
 });
