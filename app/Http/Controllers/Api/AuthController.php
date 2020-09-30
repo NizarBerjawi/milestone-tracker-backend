@@ -31,7 +31,7 @@ class AuthController extends Controller
      * Register an account
      * 
      * Allows a user to register an account.
-
+     *
      * After registration, a confirmation email will be sent to the provided email.
      * 
      * @bodyParam email string required The email of the user Example: test@test.com

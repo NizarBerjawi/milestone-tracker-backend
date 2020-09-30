@@ -30,8 +30,5 @@ Route::group(['prefix' => 'auth'], function ($router) {
 });
 
 Route::group(['prefix' => 'profiles'], function($router) {
-    Route::get('/', 'ProfileController@index');
     Route::post('/', 'ProfileController@store');
-    Route::get('/{profile}', 'ProfileController@show');
-    Route::put('{profile}', 'ProfileController@update');
 });

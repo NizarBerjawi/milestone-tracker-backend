@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Phone;
 use App\Support\Uuid\HasUuid;
+use App\Models\Profile;
 use Illuminate\Database\Eloquent\Model;
 
-class Profile extends Model
+class Phone extends Model
 {
     use HasUuid;
 
@@ -17,7 +16,7 @@ class Profile extends Model
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'user_id'
+        'number', 'type'
     ];
 
     /**
@@ -43,21 +42,11 @@ class Profile extends Model
 
     /**
      * Get the user associated with this profile
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function profile()
     {
-        return $this->belongsTo(User::class);
-    }
-    
-    /**
-     * Get the phones associated with this profile
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function phones()
-    {
-        return $this->hasMany(Phone::class);
+        return $this->belongsTo(Profile::class);
     }
 }

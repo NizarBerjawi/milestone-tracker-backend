@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Profile;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ShowProfile;
 use App\Http\Requests\StoreProfile;
 use App\Http\Resources\ProfileResource;
 
@@ -18,6 +16,8 @@ class ProfileController extends Controller
 {
     /**
      * Create a new ProfileController instance.
+     * 
+     * @return void
      */
     public function __construct() 
     {
@@ -25,31 +25,16 @@ class ProfileController extends Controller
     }
 
     /**
+     * Create a new profile.
      * 
-     */
-    public function index()
-    {
-        $profiles = Profile::with('user')->get();
-
-        return ProfileResource::collection($profiles);
-    }
-
-    /** 
-     * 
-     */
-    public function show(ShowProfile $request, Profile $profile) 
-    {
-        return new ProfileResource($profile);
-    }
-
-    /**
-     * 
+     * @param  StoreProfile  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(StoreProfile $request)
     {
         if ($request->user()->hasProfile()) {
             return response()->json([
-                'message' => 'You have already created a profile.'
+                'message' => 'You have already created a profile'
             ], 422);
         }
 
@@ -58,10 +43,10 @@ class ProfileController extends Controller
         $profile = new Profile($data);
         $profile->user()->associate($request->user());
         $profile->save();
-        
+
         return ProfileResource::make($profile)
             ->additional([
-                'message' => 'Profile created successfully'
+                'message' => 'Profile saved successfully'
             ]);
     }
 }
